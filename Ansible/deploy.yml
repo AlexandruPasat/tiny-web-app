@@ -1,1 +1,16 @@
+---
+- hosts: lab
+  become: true
+  tasks:
+    - name: Ensure community.docker is present
+      ansible.builtin.command: ansible-galaxy collection install community.docker
+      changed_when: false
+
+    - name: Run container from GHCR image
+      community.docker.docker_container:
+        name: demoapp
+        image: ghcr.io/alexandrupasat/tiny-web-app:latest
+        pull: true
+        ports:
+          - "8081:8081"
 
